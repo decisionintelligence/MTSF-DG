@@ -89,7 +89,6 @@ class DecoderModel(nn.Module, Seq2SeqAttrs):
                  (lower indices mean lower layers)
         """
         hx_ks = []
-        #hx_ks.append(hx_k[0])
         output = inputs
         for layer_num, msdr_layer in enumerate(self.msdr_layers):
             next_hidden_state, new_hx_k = msdr_layer(output, hx_k[layer_num])
@@ -100,10 +99,9 @@ class DecoderModel(nn.Module, Seq2SeqAttrs):
             else:
                 outputall = outputall +  next_hidden_state
         output = outputall.view(-1, self.rnn_units)
-        outputx, outputy =  torch.split(tensor=output, split_size_or_sections=[self.rnn_units//2, self.rnn_units//2], dim=-1)
-        a1 = torch.sigmoid(self.attention1(output.view(-1, self.rnn_units)))
-        projectedx = self.projection_layer(output.view(-1, self.rnn_units))
-        projectedy = self.projection_layer1(output.view(-1, self.rnn_units))
+        a1 = torch.sigmoid(self.attention1(output))
+        projectedx = self.projection_layer(output)
+        projectedy = self.projection_layer1(output)
         projected = a1 *  projectedx + (1-a1) * projectedy 
         projected = projected.view(-1, self.num_nodes, self.output_dim)
         output = projected.view(-1, self.num_nodes, self.output_dim)
@@ -116,7 +114,6 @@ class TSRNModel(nn.Module, Seq2SeqAttrs):
         Seq2SeqAttrs.__init__(self, adj_mx0, adj_mx, **model_kwargs)
         self.gonv_random = torch.zeros(1, self.num_nodes, int(self.rnn_units))
         self.gonv_random = torch.nn.init.xavier_uniform_(self.gonv_random).to(device)
-        #self.gonv_random = self.gonv_random.detach()
         self.encoder_model = EncoderModel(adj_mx0, adj_mx, self.gonv_random, **model_kwargs)
         self.decoder_model = DecoderModel(adj_mx0, adj_mx, self.gonv_random, **model_kwargs)
         self.cl_decay_steps = int(model_kwargs.get('cl_decay_steps', 1000))
@@ -179,17 +176,11 @@ class TSRNModel(nn.Module, Seq2SeqAttrs):
         :param batches_seen: batches seen till now
         :return: output: (self.horizon, batch_size, self.num_nodes * self.output_dim)
         """
-        #lastinput = torch.reshape(inputs, shape=[self.seq_len, -1, self.num_nodes, self.input_dim])[-1:self.seq_len]
-        #lastinput = lastinput[..., 0:1]
-        #lastinput = lastinput.repeat(self.horizon, 1, 1, 1)
-        #lastinput = lastinput.detach()
         inputs = self.em(torch.reshape(inputs, shape=[self.seq_len, -1, self.num_nodes, self.input_dim]))
         inputs = torch.reshape(inputs, shape=[self.seq_len, -1, self.num_nodes * self.rnn_units])
         encoder_outputs, hx_k = self.encoder(inputs)
         self._logger.debug("Encoder complete, starting decoder")
         outputs = self.decoder(encoder_outputs, hx_k, labels, batches_seen=batches_seen, timestamp=timestamp)
-        # outputs = torch.reshape(outputs, shape=[self.horizon, -1, self.num_nodes, self.output_dim])
-        #outputs = outputs + lastinput
         self._logger.debug("Decoder complete")
         if batches_seen == 0:
             self._logger.info(
