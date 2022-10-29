@@ -1,7 +1,7 @@
 # TSRN-C
 Time Series Reasoning Networks with Causality
 
-find dataset from 'github.com/liyaguang/DCRNN' 
+find dataset from 'liyaguang/DCRNN' 
 and generate train/test/val dataset to 'TSRN-C/data/METR-LA//{train,val,test}.npz'
 
 
