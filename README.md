@@ -1,7 +1,7 @@
 # TSRN-C
 Time Series Reasoning Networks with Causality
 
-move dataset from 'https://github.com/zhkai/TSRN-C/releases/tag/newtag' to 'TSRN-C/data/METR-LA/'
+find dataset from 'https://github.com/liyaguang/DCRNN' and generate train/test/val dataset to 'TSRN-C/data/METR-LA//{train,val,test}.npz'
 
 run with 'python main.py --config_filename=data/model/GMSDR_LA.yaml'
 
