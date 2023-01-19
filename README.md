@@ -8,6 +8,4 @@ and generate train/test/val dataset to 'TSRN-C/data/METR-LA//{train,val,test}.np
 run with 'python main.py --config_filename=data/model/GMSDR_LA.yaml'
 
 requirement:
-tensorflow                1.14.0
-
-pytorch                   1.2.0
+tensorflow                1.14.0, pytorch                   1.2.0
