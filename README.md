@@ -1,9 +1,7 @@
-# MTSF-CR
-Time Series Forecasting with Causality and Reasoning
+# MTSF-DG
+Time Series Forecasting with Dynamic Graph Modeling
 
-find dataset from 'liyaguang/DCRNN' 
-and generate train/test/val dataset to 'TSRN-C/data/METR-LA//{train,val,test}.npz'
-
+move train/test/val dataset to '/data/METR-LA//{train,val,test}.npz'
 
 run with 'python main.py --config_filename=data/model/GMSDR_LA.yaml'
 
