@@ -1,10 +1,12 @@
 # MTSF-DG
 Here is the code and appendix for the paper 'Multiple Time Series Forecasting with Dynamic Graph Modeling'.
+
 The data process and data loader are under '/lib/', and the MTSF-DG method is under '/model/'.
 
 ## Datasets
 Download datasets from 'https://github.com/zhkai/MTSF-DG/releases'.
-move train/test/val to '/data/METR-LA/'.
+
+Move train/test/val to '/data/METR-LA/'.
 
 ## Environment 
 -  Python                    3.6
