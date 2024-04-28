@@ -17,4 +17,14 @@ Move train/test/val to '/data/METR-LA/'.
 run with 'python main.py --config_filename=data/model/GMSDR_LA.yaml'
 
 
+##Citing
+If you find this resource helpful, please consider to cite our research:
 
+```
+@article{zhao2024mtsf-dg,
+  title         = {Multiple Time Series Forecasting with Dynamic Graph Modeling},
+  author        = {Kai Zhao and Chenjuan Guo and Yunyao Cheng and Peng Han and Miao Zhang and Bin Yang},
+  journal       = {Proc. {VLDB} Endow.},
+  year          = {2024}
+}
+```
